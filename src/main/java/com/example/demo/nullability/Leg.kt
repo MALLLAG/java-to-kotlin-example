@@ -1,29 +1,15 @@
-package com.example.demo.nullability;
+package com.example.demo.nullability
 
-import java.time.Duration;
+import java.time.Duration
 
-public class Leg {
-    private final String name;
-    private final Duration plannedDuration;
+class Leg private constructor(
+    val description: String,
+    val plannedDuration: Duration
+) {
 
-    private Leg(String name, Duration plannedDuration) {
-        this.name = name;
-        this.plannedDuration = plannedDuration;
-    }
-
-    public static Leg leg(String name, Duration duration) {
-        return new Leg(name, duration);
-    }
-
-    public Duration getPlannedDuration() {
-        return plannedDuration;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return name;
+    companion object {
+        fun leg(name: String, duration: Duration): Leg {
+            return Leg(name, duration)
+        }
     }
 }

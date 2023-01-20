@@ -1,29 +1,12 @@
-package com.example.demo.nullability;
+package com.example.demo.nullability
 
-import java.time.Duration;
-import java.util.List;
-import java.util.Optional;
+import java.time.Duration
 
-public class Legs {
-
-    public static Optional<Leg> findLongestLegOver(
-            List<Leg> legs,
-            Duration duration
-    ) {
-        Leg result = null;
-        for (Leg leg : legs) {
-            if (isLongerThan(leg, duration)) {
-                if (result == null
-                        || isLongerThan(leg, result.getPlannedDuration())
-                ) {
-                    result = leg;
-                }
-            }
-        }
-        return Optional.ofNullable(result);
-    }
-
-    private static boolean isLongerThan(Leg leg, Duration duration) {
-        return leg.getPlannedDuration().compareTo(duration) > 0;
+fun List<Leg>.longestOver(duration: Duration): Leg? {
+    val longestLeg = maxByOrNull(Leg::plannedDuration)
+    return when {
+        longestLeg == null -> null
+        longestLeg.plannedDuration > duration -> longestLeg
+        else -> null
     }
 }
