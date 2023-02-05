@@ -9,22 +9,21 @@ private constructor(
     val currency: Currency
 ) {
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) return true
-        if (o == null || javaClass != o.javaClass) return false
-        val money = o as Money
-        return amount == money.amount && currency == money.currency
-    }
+    override fun equals(other: Any?) =
+        this === other ||
+                other is Money &&
+                amount == other.amount &&
+                currency == other.currency
 
-    override fun hashCode(): Int {
-        return Objects.hash(amount, currency)
-    }
+    override fun hashCode() =
+        Objects.hash(amount, currency)
 
-    override fun toString(): String {
-        return amount.toString() + " " + currency.currencyCode
-    }
+    override fun toString() =
+        amount.toString() + " " + currency.currencyCode
 
-    fun add(that: Money): Money {
+    fun add(that: Money): Money = this + that
+
+    operator fun plus(that: Money): Money {
         require(currency == that.currency) {
             "cannot add Money values of different currencies"
         }
@@ -33,11 +32,13 @@ private constructor(
 
     companion object {
         @JvmStatic
-        fun of(amount: BigDecimal, currency: Currency): Money {
-            return Money(
+        fun of(amount: BigDecimal, currency: Currency) =
+            this(amount, currency)
+
+        operator fun invoke(amount: BigDecimal, currency: Currency) =
+            Money(
                 amount.setScale(currency.defaultFractionDigits),
                 currency
             )
         }
-    }
 }
