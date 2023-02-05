@@ -40,5 +40,5 @@ private constructor(
                 amount.setScale(currency.defaultFractionDigits),
                 currency
             )
-        }
+    }
 }
